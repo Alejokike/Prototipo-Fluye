@@ -105,6 +105,7 @@ Fluye es la plataforma del **Ecosistema de Crédito Comercial** para mercados B2
 - **Móvil sin barra inferior.** La navegación es el menú lateral; no hay botón principal flotante.
 - **Controles del DS.** Los `<select>` y los `input[type=file]` dentro de `.fld` se reemplazan solos por los componentes `ui-select` y `ui-file` (scripts al final de `index.html`). Escribe el control nativo y deja que el script lo mejore. Sus textos propios se eligen según `document.documentElement.lang`.
 - **Datos de ejemplo del equipo:** solo Carolina Mejías es Propietaria.
+- **Referencias:** el objeto `REF` y el mapa `G` (en `mapHtml`) siguen la base «Screens — Fluye Initial Product» de Notion. Si cambia una ficha (ID, nombre, alcance, madurez), actualiza ambos.
 
 ## 6. Cómo está construido el código
 
@@ -125,6 +126,7 @@ Son dos archivos y deben seguir siendo dos: no añadas frameworks, bundlers, dep
   | pantallas | una función `vXxx()` por pantalla (`vHome`, `vBuyers`, `vSale`, `vSaleForm`, `vReview`, `vPay`, `vCobranza`, `vPolicy`…) |
   | capas del prototipo | panel de decisiones, modo demo, diálogos |
   | router y render | `route()`, que lee el hash (`#/sales/VTA-0006`) y pinta con `innerHTML` |
+  | SC-043 | `vJoin()` justo después de `vRecover()`; ruta `#/join/<id de usuario invitado>`; acciones `join*` |
   | `I18N` | diccionario de traducciones (una línea de unos 273 KB) |
   | **MASTER** | al final: recorta todo al MVP de octubre |
 

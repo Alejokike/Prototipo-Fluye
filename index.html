@@ -953,7 +953,7 @@ a.baract{color:inherit;border-radius:12px;padding:8px 6px}
 .nxt .sp-h{margin-bottom:4px}
 .nrow{display:grid;grid-template-columns:36px minmax(0,1fr) auto;gap:12px;align-items:center;padding:10px 0;border-top:1px solid var(--hair);color:inherit}
 .nrow:first-of-type{border-top:0}
-.nrow:hover{background:color-mix(in srgb,var(--primary) 4%,transparent);border-radius:12px}
+.nrow:hover{background:color-mix(in srgb,var(--primary) 4%,transparent);border-radius:12px;margin-inline:-12px;padding-inline:12px}
 .hrow .tiles{align-content:start;grid-auto-rows:min-content}
 .hrow .tiles>.kpi,.hrow .tiles>.tile{min-height:0}
 .scards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
@@ -1334,6 +1334,16 @@ details.moreopts{margin:6px 0 12px;border:1px solid var(--outline-variant);borde
 .pw-eye:hover{background:var(--surface-container-highest);color:var(--on-surface)}
 .pw-eye .i{font-size:20px}
 @media (min-width:840px){.auth.solo{grid-template-columns:minmax(0,1fr)}}
+/* Cambiar de empresa (diálogo): ListItem del DS, 52 px a dos líneas, fila completa interactiva */
+.co-li-list{display:grid;margin-top:8px}
+.co-li{display:flex;align-items:center;gap:12px;width:100%;min-height:52px;padding:8px 12px;margin:0;border:0;border-radius:12px;background:transparent;color:var(--on-surface);font:400 14px/20px var(--sans);text-align:start;cursor:pointer}
+.co-li+.co-li{margin-block-start:2px}
+.co-li:hover{background:var(--surface-container-highest)}
+.co-li-t{display:grid;flex:1;min-width:0}
+.co-li .chev{color:var(--on-surface-variant);display:inline-flex}
+.co-li.co-cur{cursor:default}.co-li.co-cur:hover{background:transparent}
+/* Empresa activa: solo punto de estado (selector de empresa y perfil) */
+.co-on{display:inline-block;flex:none;margin-inline:6px;width:10px;height:10px;border-radius:50%;background:var(--success);box-shadow:0 0 0 3px color-mix(in srgb,var(--success) 18%,transparent);vertical-align:middle}
 </style>
 </head>
 <body>
