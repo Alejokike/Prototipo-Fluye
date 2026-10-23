@@ -784,7 +784,7 @@ function fld(id,label,ctrl,hint,err){var plain=!!hint&&String(hint).indexOf('<')
 var NOTION_SCREENS='https://app.notion.com/p/d49d50d5ece84a2bab1613a4195f7c75';
 var REF={
  'SC-032':{id:'SC-032',n:'Recuperar acceso',l2:'App web · BE-00 · Entra en octubre · Ficha Detailed · Draft 0.1',uc:'UC-024'},
- 'SC-043':{id:'SC-043',n:'Aceptar invitación al equipo de una empresa',l2:'App web · BE-00 · Entra en octubre · Ficha Detailed · Draft 0.1 · Crítica',uc:'UC-007 (crítico) · acceso UC-001',note:'Multi-step Screen Flow. Recorrido de la ficha: validar el enlace → identificarse (persona nueva crea su cuenta con el correo de la invitación, nombre, apellido y contraseña de al menos 8 caracteres; persona existente inicia sesión) → revisar empresa y rol → aceptar → entrar por SC-001. La invitación vence a los 7 días; reenviar invalida el enlace anterior; cancelar lo anula. Sin rechazo explícito en octubre. El selector de demostración muestra los estados de la ficha: validando, vencida, cancelada, ya usada, otra sesión abierta, cambio mientras aceptaba y error.'},
+ 'SC-043':{id:'SC-043',n:'Aceptar invitación al equipo de una empresa',l2:'App web · BE-00 · Entra en octubre · Ficha Detailed · Draft 0.1 · Crítica',uc:'UC-007 (crítico) · acceso UC-001',note:'Multi-step Screen Flow. Recorrido de la ficha: validar el enlace → identificarse (persona nueva crea su cuenta con el correo de la invitación, nombre, apellido y contraseña de al menos 8 caracteres; persona existente inicia sesión) → revisar empresa y rol → aceptar → entrar por SC-001. La invitación vence a los 7 días; reenviar invalida el enlace anterior; cancelar lo anula. Sin rechazo explícito en octubre. El selector de demostración muestra los estados de la ficha: validando, vencida, cancelada, ya usada, otra sesión abierta, cambio mientras aceptaba y error. Correo de invitación (se abre desde Decisiones › Eventos): remitente Fluye, asunto «[Nombre] te invitó a [empresa] en Fluye», logo de Fluye (sin el de la empresa), rol asignado, quién invita, botón «Aceptar invitación» y «Vence el [fecha]», en el idioma de comunicaciones de la empresa. SUPUESTO: la ficha no define ese idioma ni el logo del correo; el prototipo toma el primer idioma del mercado de la cuenta.'},
  'SC-001':{id:'SC-001',n:'Acceso',l2:'App web · BE-00 · Entra en octubre · Ficha Detailed · Draft 0.4',uc:'UC-001 Acceder al tenant correcto de forma segura',note:'Sin selector al entrar: se entra a la última empresa usada (A-01, J-01). Demostración: la contraseña válida es la precargada; con otra contraseña sale el error genérico y a los 5 intentos fallidos en 15 min se bloquea ese correo 15 min (P-03). El correo define quién entra: Carolina (dos empresas), Pedro y Daniela (Administradores), Andrés (Operador) o Cristina Morales (sin empresa → «No estás asociado a ninguna empresa», solo tras validar la contraseña). La última empresa no disponible se elige en Decisiones; el aviso de sesión por vencer se dispara en Decisiones › Eventos. Sin contacto de soporte (J-16); sin árabe (P-10). Otros mocks: sin.conexion@example.com (falla temporal) y una.empresa@example.com (una sola empresa).'},
  'SC-010':{id:'SC-010',n:'Inicio',l2:'App web · BE-04 · Entra en octubre · Ficha Detailed · Draft 0.0',note:'Los indicadores y paneles son propuesta del prototipo; la ficha aún no los define.'},
  'SC-007':{id:'SC-007',n:'Lista de clientes',g:'Término en la UI: cliente (buyer en la especificación); saldo (exposición en la especificación).',l2:'App web · BE-01 · Entra en octubre · Ficha Detailed · Draft 0.4',uc:'UC-004 (entrada)'},
@@ -1103,8 +1103,8 @@ function vSoon(kind){
 }
 /* ---------- pantallas ---------- */
 var RIB='<svg class="hero-rib" viewBox="0 0 800 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false"><defs><linearGradient id="ra" x1="0" y1="0" x2="1" y2="1"><stop offset="0" style="stop-color:var(--brand-accent);stop-opacity:0"/><stop offset=".5" style="stop-color:var(--brand-accent);stop-opacity:.26"/><stop offset="1" style="stop-color:var(--brand-tint);stop-opacity:0"/></linearGradient><linearGradient id="rb" x1="1" y1="0" x2="0" y2="1"><stop offset="0" style="stop-color:var(--brand-tint);stop-opacity:0"/><stop offset=".55" style="stop-color:var(--brand);stop-opacity:.5"/><stop offset="1" style="stop-color:var(--brand-accent);stop-opacity:.05"/></linearGradient><radialGradient id="rc"><stop offset="0" style="stop-color:var(--brand-tint);stop-opacity:.35"/><stop offset="1" style="stop-color:var(--brand-tint);stop-opacity:0"/></radialGradient></defs><circle cx="700" cy="120" r="300" fill="url(#rc)"/><g class="rib r1"><path d="M-120 600 C 80 470 280 690 500 540 S 840 390 940 450 L940 640 C 780 590 640 770 430 810 S 70 760 -120 840 Z" fill="url(#ra)"/></g><g class="rib r2"><path d="M-120 700 C 100 600 300 800 540 660 S 860 560 940 610 L940 800 C 800 760 660 900 450 930 S 90 890 -120 960 Z" fill="url(#rb)"/></g><g class="rib r3"><path d="M-100 380 C 120 300 320 460 560 340 S 860 250 940 300 L940 380 C 800 340 660 470 450 500 S 90 450 -100 520 Z" fill="url(#ra)" opacity=".6"/></g></svg>';
-function authFrame(inner,rk){
- var solo=S.authState==='choose';
+function authFrame(inner,rk,noHero){
+ var solo=S.authState==='choose'||noHero===true;
  return '<div class="auth'+(solo?' solo':'')+'"><div class="auth-l"><div class="auth-top"><div class="lg"><img src="'+LOGO_COLOR+'" alt="Fluye"></div>'+langMenu()+'</div>'+
   '<div class="auth-card">'+inner+'</div>'+
   '<footer>'+endorse()+refHtml(rk||'SC-001')+'</footer></div>'+
@@ -1167,7 +1167,72 @@ function vJoin(uid){
    (J.busy?'<button class="btn btn-p btn-block" disabled aria-busy="true">Aceptando…</button>':'<button class="btn btn-p btn-block" data-act="joinAccept">Aceptar invitación</button>'));
  else h='<h1 style="margin-bottom:8px">Te invitaron a '+esc(co)+'</h1><p class="sub">Para aceptar, entra con tu propia cuenta. Nadie más puede crearla por ti.</p><p class="muted small mono" style="margin-bottom:12px">'+esc(u.email)+'</p>'+
    '<button class="btn btn-p btn-block" data-act="joinStep" data-v="new">Crear mi cuenta</button><button class="btn btn-o btn-block" data-act="joinStep" data-v="login" style="margin-top:8px">Ya tengo cuenta: iniciar sesión</button>';
- return authFrame(mk+h,'SC-043');
+ return authFrame(mk+h,'SC-043',true);
+}
+/* SC-043 · correo de invitación al equipo. Se codifica como correo real (tablas, CSS en línea, 600 px, botón a prueba de balas con VML para Outlook,
+   preheader, lang/dir) y se pinta en un iframe aislado para que se vea como en un cliente de correo. Los colores salen de los roles de :root (los clientes
+   de correo no entienden var()), así que no se escribe ningún hex aquí. SUPUESTO: el idioma de comunicaciones de la empresa es el primero del mercado
+   de la cuenta (la ficha no define ese ajuste); el logo es el de Fluye, sin el de la empresa; el vencimiento es de 7 días desde el envío. */
+var JOIN_MAIL_T={
+ es:{pre:'Acepta la invitación para unirte al equipo de {co} como {role}.',h:'Te invitaron al equipo de {co}',p:'<b>{who}</b> te invitó a unirte al equipo de <b>{co}</b> en Fluye.',role:'Rol asignado',by:'Te invitó',cta:'Aceptar invitación',exp:'Vence el {date}',alt:'Si el botón no funciona, copia y pega este enlace en tu navegador:',ign:'Si no esperabas esta invitación, puedes ignorar este correo.',sent:'Enviado por Fluye',subj:'{who} te invitó a {co} en Fluye',roles:{owner:'Propietario',admin:'Administrador',operator:'Operador'}},
+ en:{pre:'Accept the invitation to join the {co} team as {role}.',h:'You\'ve been invited to the {co} team',p:'<b>{who}</b> invited you to join the <b>{co}</b> team on Fluye.',role:'Assigned role',by:'Invited by',cta:'Accept invitation',exp:'Expires on {date}',alt:'If the button doesn\'t work, copy and paste this link into your browser:',ign:'If you weren\'t expecting this invitation, you can ignore this email.',sent:'Sent by Fluye',subj:'{who} invited you to {co} on Fluye',roles:{owner:'Owner',admin:'Administrator',operator:'Operator'}}
+};
+function joinMailLang(){var l=((MKT().langs||[])[0])||'es';return JOIN_MAIL_T[l]?l:'es';}
+function joinMailFill(t,o){return t.replace(/\{(\w+)\}/g,function(m,k){return o[k]==null?m:o[k];});}
+function joinMailDate(d,l){var m=MON[l].l[d.getMonth()];return l==='en'?m+' '+d.getDate()+', '+d.getFullYear():d.getDate()+' de '+m+' de '+d.getFullYear();}
+function joinMailParts(u){
+ var l=joinMailLang(),T=JOIN_MAIL_T[l],co=S.seller.company,who=S.seller.name,role=T.roles[u.role]||T.roles.operator,date=joinMailDate(addDays(u.sentAt||TODAY,7),l);
+ return {l:l,T:T,co:co,who:who,role:role,date:date,subject:joinMailFill(T.subj,{who:who,co:co})};
+}
+function joinMailHtml(u){
+ var P=joinMailParts(u),T=P.T,l=P.l,css=getComputedStyle(document.documentElement),tk=function(n){return css.getPropertyValue('--'+n).trim();},
+  bg=tk('surface'),card=tk('surface-container-lowest'),line=tk('outline-variant'),ink=tk('on-surface'),mute=tk('on-surface-variant'),btn=tk('primary'),onBtn=tk('on-primary'),rBtn=tk('shape-button'),rCard=tk('shape-card'),
+  F='Geist,\'Segoe UI\',Helvetica,Arial,sans-serif',url='https://fluye.link/i/'+u.id,
+  f=function(o){var s=T[o.k]?joinMailFill(T[o.k],{co:esc(P.co),who:esc(P.who),role:esc(P.role),date:esc(P.date)}):'';return s;};
+ return ['<!DOCTYPE html>',
+ '<html lang="'+l+'" dir="ltr" xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">',
+ '<head>','<meta charset="utf-8">','<meta name="viewport" content="width=device-width,initial-scale=1">','<meta http-equiv="X-UA-Compatible" content="IE=edge">',
+ '<meta name="x-apple-disable-message-reformatting">','<meta name="format-detection" content="telephone=no,date=no,address=no,email=no,url=no">',
+ '<meta name="color-scheme" content="light only">','<meta name="supported-color-schemes" content="light only">',
+ '<title>'+esc(P.subject)+'</title>',
+ '<!--[if mso]><noscript><xml><o:OfficeDocumentSettings><o:PixelsPerInch>96</o:PixelsPerInch></o:OfficeDocumentSettings></xml></noscript><![endif]-->',
+ '<style>body,table,td,a{-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%}table,td{mso-table-lspace:0;mso-table-rspace:0}img{-ms-interpolation-mode:bicubic;border:0;outline:none;text-decoration:none;display:block}body{margin:0;padding:0;width:100%!important}a{color:'+btn+'}',
+ '@media screen and (max-width:620px){.fw{width:100%!important}.fp{padding-left:20px!important;padding-right:20px!important}.fb{display:block!important;width:100%!important}.fb a{display:block!important;width:auto!important}}</style>',
+ '</head>',
+ '<body style="margin:0;padding:0;background-color:'+bg+';">',
+ '<div style="display:none;font-size:1px;line-height:1px;max-height:0;max-width:0;opacity:0;overflow:hidden;mso-hide:all;">'+f({k:'pre'})+'&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;</div>',
+ '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="'+bg+'" style="background-color:'+bg+';"><tr><td align="center" style="padding:24px 12px;">',
+ '<!--[if mso]><table role="presentation" width="600" align="center" cellpadding="0" cellspacing="0" border="0"><tr><td><![endif]-->',
+ '<table role="presentation" class="fw" width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="'+card+'" style="max-width:600px;background-color:'+card+';border:1px solid '+line+';border-radius:'+rCard+';">',
+ '<tr><td class="fp" align="left" style="padding:28px 32px 0 32px;"><img src="'+LOGO_COLOR+'" width="112" height="33" alt="Fluye" style="display:block;width:112px;height:auto;border:0;"></td></tr>',
+ '<tr><td class="fp" style="padding:24px 32px 0 32px;font-family:'+F+';color:'+ink+';"><h1 style="margin:0;font-size:22px;line-height:28px;font-weight:600;color:'+ink+';">'+f({k:'h'})+'</h1></td></tr>',
+ '<tr><td class="fp" style="padding:12px 32px 0 32px;font-family:'+F+';font-size:15px;line-height:22px;color:'+ink+';">'+f({k:'p'})+'</td></tr>',
+ '<tr><td class="fp" style="padding:20px 32px 0 32px;"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="border:1px solid '+line+';border-radius:'+rBtn+';">',
+ '<tr><td style="padding:14px 16px 4px 16px;font-family:'+F+';font-size:13px;line-height:18px;color:'+mute+';">'+f({k:'role'})+'</td></tr>',
+ '<tr><td style="padding:0 16px 12px 16px;font-family:'+F+';font-size:15px;line-height:22px;font-weight:600;color:'+ink+';">'+esc(P.role)+'</td></tr>',
+ '<tr><td style="padding:0 16px;"><div style="height:1px;line-height:1px;font-size:1px;background-color:'+line+';">&nbsp;</div></td></tr>',
+ '<tr><td style="padding:12px 16px 4px 16px;font-family:'+F+';font-size:13px;line-height:18px;color:'+mute+';">'+f({k:'by'})+'</td></tr>',
+ '<tr><td style="padding:0 16px 14px 16px;font-family:'+F+';font-size:15px;line-height:22px;font-weight:600;color:'+ink+';">'+esc(P.who)+'</td></tr>',
+ '</table></td></tr>',
+ '<tr><td class="fp" align="left" style="padding:24px 32px 0 32px;"><table role="presentation" class="fb" cellpadding="0" cellspacing="0" border="0"><tr><td align="center" bgcolor="'+btn+'" style="border-radius:'+rBtn+';background-color:'+btn+';">',
+ '<!--[if mso]><v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="'+url+'" style="height:44px;v-text-anchor:middle;width:220px;" arcsize="27%" stroke="f" fillcolor="'+btn+'"><w:anchorlock/><center style="color:'+onBtn+';font-family:Arial,sans-serif;font-size:15px;font-weight:600;">'+f({k:'cta'})+'</center></v:roundrect><![endif]-->',
+ '<!--[if !mso]><!--><a href="'+url+'" target="_blank" rel="noopener" style="display:inline-block;padding:12px 28px;font-family:'+F+';font-size:15px;line-height:20px;font-weight:600;color:'+onBtn+';text-decoration:none;border-radius:'+rBtn+';background-color:'+btn+';">'+f({k:'cta'})+'</a><!--<![endif]-->',
+ '</td></tr></table></td></tr>',
+ '<tr><td class="fp" style="padding:12px 32px 0 32px;font-family:'+F+';font-size:13px;line-height:18px;color:'+mute+';">'+f({k:'exp'})+'</td></tr>',
+ '<tr><td class="fp" style="padding:24px 32px 0 32px;font-family:'+F+';font-size:13px;line-height:18px;color:'+mute+';">'+f({k:'alt'})+'<br><a href="'+url+'" target="_blank" rel="noopener" style="color:'+btn+';word-break:break-all;">'+esc(url)+'</a></td></tr>',
+ '<tr><td class="fp" style="padding:20px 32px 28px 32px;font-family:'+F+';font-size:13px;line-height:18px;color:'+mute+';border-top:0;">'+f({k:'ign'})+'<br>'+f({k:'sent'})+'</td></tr>',
+ '</table>','<!--[if mso]></td></tr></table><![endif]-->','</td></tr></table>','</body>','</html>'].join('\n');
+}
+/* El clic dentro del iframe navega la app (no el navegador): el enlace del correo abre SC-043. Solo prototipo. */
+window.fluyeMailFrame=function(fr){try{var d=fr.contentDocument;fr.style.height='0';fr.style.height=d.documentElement.scrollHeight+'px';d.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('a');if(!a)return;e.preventDefault();var h=fr.getAttribute('data-go');if(h)window.location.hash=h;});}catch(err){}};
+function vJoinMsg(uid){
+ var u=S.users.filter(function(x){return x.id===uid;})[0],back='#/config/users',
+  row=function(l,v){return '<div class="mrow"><span class="t-lm muted">'+l+'</span><span>'+v+'</span></div>';};
+ var stage='<div class="stage"><div class="stage-bar"><div class="lft"><span class="chip info">Fuera del panel de Fluye</span></div><div style="display:flex;gap:8px;align-items:center"><a class="btn btn-o" href="'+back+'">Volver al panel</a></div></div><div class="stage-body"><div class="phone">';
+ var tail='</div><div class="stage-ref">'+refHtml('SC-043')+'</div></div></div>';
+ if(!u||u.status!=='invited')return stage+'<div class="msg"><div class="msg-body"><section class="panel"><h2>Esta invitación ya no está disponible</h2></section></div></div>'+tail;
+ var P=joinMailParts(u);
+ return stage+'<div class="msg"><div class="msg-body"><div class="mail"><div class="mail-h">'+row('De','Fluye')+row('Para',esc(u.email))+row('Asunto',esc(P.subject))+'</div><iframe class="mail-fr" title="'+esc(P.subject)+'" lang="'+P.l+'" scrolling="no" data-go="#/join/'+u.id+'" onload="window.fluyeMailFrame&amp;&amp;window.fluyeMailFrame(this)" srcdoc="'+esc(joinMailHtml(u))+'"></iframe></div></div></div>'+tail;
 }
 var MF=['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
 var daysTo=function(d){return Math.round((d-TODAY)/864e5);};
@@ -2432,7 +2497,7 @@ function layerProto(){
  if(S.drawer){
   out+='<div class="scrim" data-act="closeDrawer"></div><aside class="drawer" role="dialog" aria-label="Decisiones abiertas"><div class="page-h" style="margin-bottom:12px"><div><h2 class="t-tl">Decisiones abiertas</h2><p class="muted">Cambia una variante y recorre la escena para verla.</p></div><button class="btn btn-t" data-act="closeDrawer">Cerrar</button></div>'+
    DEC_META.map(function(m){return '<fieldset><legend>'+m.t+'</legend>'+m.o.map(function(o){return '<label class="opt"><input type="radio" name="d-'+m.k+'" data-dec="'+m.k+'" value="'+o[0]+'"'+(S.dec[m.k]===o[0]?' checked':'')+'>'+o[1]+'</label>';}).join('')+'</fieldset>';}).join('')+
-   '<h3 class="t-ts" style="margin:16px 0 8px">Eventos</h3><p class="muted small" style="margin:0 0 8px">Dispara un evento para ver cómo se ve.</p><div class="actions"><button class="btn btn-o" data-act="evSession">Sesión por vencer (aviso 1 min antes)</button></div>'+
+   '<h3 class="t-ts" style="margin:16px 0 8px">Eventos</h3><p class="muted small" style="margin:0 0 8px">Dispara un evento para ver cómo se ve.</p><div class="actions"><button class="btn btn-o" data-act="evSession">Sesión por vencer (aviso 1 min antes)</button>'+(function(){var iu=S.users.filter(function(u){return u.status==='invited';})[0];return iu?'<a class="btn btn-o" href="#/msg/join/'+iu.id+'">Correo de invitación al equipo</a>':'<button class="btn btn-o" disabled title="No hay invitaciones pendientes">Correo de invitación al equipo</button>';})()+'</div>'+
    '<h3 class="t-ts" style="margin:16px 0 8px">Registro de decisiones</h3><textarea id="log" readonly aria-label="Registro de decisiones">'+esc(decLog())+'</textarea>'+
    '<div class="actions" style="margin-top:12px"><button class="btn btn-o" data-act="copyLog">Copiar registro</button><button class="btn btn-t" data-act="resetDec">Restablecer</button></div><h3 class="t-ts" style="margin:16px 0 4px">Fecha y configuración guardada</h3><p class="muted small" style="margin:0 0 8px">Fecha de la demostración: '+(function(){var r=false;try{r=localStorage.getItem('fluye.today')==='real';}catch(e){}return r?'la de hoy ('+dfmt(TODAY)+')':'fija ('+dfmt(TODAY)+')';})()+'. El logo, las monedas y las preferencias de notificación se guardan en este navegador.</p><div class="actions"><button class="btn btn-o" data-act="dateToggle">Cambiar la fecha</button><button class="btn btn-t" data-act="cfgClear">Borrar lo guardado</button></div></aside>';
  }
@@ -2679,7 +2744,7 @@ function route(){
  else if(a==='recover'){v=vRecover()+layerProto();layer=false;}
  else if(a==='join'){v=vJoin(p[1])+layerProto();layer=false;t='Aceptar invitación';}
  else if(a==='pay'){logOpen(p[1]);v=vPay(p[1],p[2]);t='Vista del cliente';}
- else if(a==='msg'){v=p[1]==='inv'?vInvMsg(p[2]):vMsg(p[1],p[2]);t='Mensaje al cliente';}
+ else if(a==='msg'){v=p[1]==='join'?vJoinMsg(p[2]):p[1]==='inv'?vInvMsg(p[2]):vMsg(p[1],p[2]);t=p[1]==='join'?'Correo de invitación':'Mensaje al cliente';}
  else if(a==='invite'){v=vInvite(p[1]);layer=false;t='Invitación';}
  else if(a==='portal'){v=vPortal();layer=false;t='Portal de pagos';}
  else if(a==='cartera'){var nOn=S.dec.stage==='new'?Math.min(salesOn(),4):salesOn();v=shell('cartera',cartOk()?vCartera():head('Cartera de ventas','Antigüedad, concentración y comportamiento de pago de lo que vendes a plazo.')+'<section class="panel"><h2>Tu cartera aparece con 10 ventas</h2><p class="muted">Con pocas ventas, el análisis dice poco. Cuando actives 10 ventas, aquí verás la antigüedad de tu saldo, la concentración por cliente y cómo te pagan.</p><div class="progress" style="margin-top:12px" role="progressbar" aria-valuemin="0" aria-valuemax="10" aria-valuenow="'+nOn+'"><span style="width:'+Math.min(100,nOn*10)+'%"></span></div><p class="muted small" style="margin-top:6px">'+nOn+' de 10 ventas activadas</p></section>');t='Cartera de ventas';}
