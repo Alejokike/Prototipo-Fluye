@@ -459,7 +459,7 @@ select.ce{display:none!important}
 .ssel:hover{border-color:var(--outline)}
 .ssel:focus-visible,.ssel[aria-expanded="true"]{outline:none;border-color:var(--primary);box-shadow:0 0 0 4px color-mix(in srgb,var(--primary) 16%,transparent)}
 .ssel .sv{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.ssel .sv.ph{color:var(--on-surface-variant)}
+.ssel .sv.sph{color:var(--on-surface-variant)}
 .ssel svg{flex:none;width:18px;height:18px;color:var(--on-surface-variant);transition:transform .15s}
 .ssel[aria-expanded="true"] svg{transform:rotate(180deg)}
 .ssel:disabled{opacity:.6;cursor:not-allowed}
@@ -1054,7 +1054,7 @@ a.baract{color:inherit;border-radius:12px;padding:8px 6px}
 .hero-c{justify-content:flex-start}
 .hero-c .hero-t{flex:1;display:flex;flex-direction:column;min-height:0}
 .hero-c .hero-t .hv{margin:auto 0}
-@media (min-width:900px){#tbl-clients .li{grid-template-columns:minmax(0,2fr) minmax(0,.9fr) minmax(0,.9fr) minmax(0,1.6fr)}}
+@media (min-width:900px){#tbl-clients .li{grid-template-columns:minmax(0,1.8fr) minmax(0,.7fr) minmax(0,.8fr) minmax(0,.8fr) minmax(0,1.5fr) 132px}}
 .endorse{color:var(--on-surface)}
 .endorse img{filter:brightness(0) invert(.1);opacity:1}
 .mlist{margin:0 0 4px;padding-inline-start:20px;color:var(--on-surface-variant);font:400 14px/22px var(--sans)}
@@ -1420,6 +1420,24 @@ details.moreopts{margin:6px 0 12px;border:1px solid var(--outline-variant);borde
 .fld .inp-ok input{width:100%;padding-inline-end:36px;padding-inline-start:12px;font:400 13px/20px var(--sans);text-overflow:ellipsis}
 .inp-ok .vchk{position:absolute;inset-inline-end:14px;top:50%;transform:translateY(-50%)}
 .fld .inp-ok input[readonly]{background:var(--surface-container-high);color:var(--on-surface);opacity:1;cursor:default}
+/* SC-009 · check en el encabezado de Verificación de la empresa */
+.panel h2.kyb-h{display:flex;align-items:center;justify-content:space-between;gap:12px}.panel h2.kyb-h .vchk{order:2}
+/* SC-009 · Incorporar cliente: las tarjetas no se igualan en alto */
+.g2.top{align-items:start}
+/* Sin resultados en tablas: solo el mensaje, sin logo */
+.empty.plain{padding:20px 12px;min-height:0;display:block}
+.empty.plain::before{display:none}
+/* Clientes: columna de etiquetas de estado como badge, sin punto */
+#tbl-clients .cbd{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+#tbl-clients .cbd:empty{display:none}
+#tbl-clients .cbd .chip{height:24px;padding:0 10px;border-radius:9999px;background:var(--surface-container-highest);color:var(--on-surface)}
+#tbl-clients .cbd .chip::before{display:none}
+#tbl-clients .cbd .chip.err{background:var(--error-container);color:var(--on-error-container)}
+#tbl-clients .cbd .chip.warn{background:var(--warning-container);color:var(--on-warning-container)}
+/* Aviso de cliente inhabilitado con saldo: color plano, sin botón */
+.stbn{display:flex;align-items:center;gap:12px;margin-bottom:12px;padding:12px 16px;border-radius:16px;background:var(--warning-container);color:var(--on-warning-container)}
+.stbn .i{flex:none;width:24px;height:24px;font-size:24px}
+.stbn div{display:grid;gap:2px;min-width:0}.stbn b{font:600 14px/20px var(--sans)}.stbn div span{font:400 13px/18px var(--sans)}
 </style>
 </head>
 <body>
@@ -1431,7 +1449,7 @@ details.moreopts{margin:6px 0 12px;border:1px solid var(--outline-variant);borde
 var CHEV='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>';
 var menu=null,cur=null,act=-1;
 function lbl(sel){var o=sel.options[sel.selectedIndex];return o?o.textContent:'';}
-function sync(sel){var b=sel._ce;if(!b)return;var t=lbl(sel),v=b.firstChild;v.textContent=t||' ';v.className='sv'+(sel.value===''&&t?' ph':'');b.disabled=sel.disabled;var l=sel.getAttribute('aria-label');if(l)b.setAttribute('aria-label',l);}
+function sync(sel){var b=sel._ce;if(!b)return;var t=lbl(sel),v=b.firstChild;v.textContent=t||' ';v.className='sv'+(sel.value===''&&t?' sph':'');b.disabled=sel.disabled;var l=sel.getAttribute('aria-label');if(l)b.setAttribute('aria-label',l);}
 function enhance(sel){
   if(sel._ce||sel.multiple||sel.size>1)return;
   var b=document.createElement('button');b.type='button';b.className='ssel';b.setAttribute('aria-haspopup','listbox');b.setAttribute('aria-expanded','false');
