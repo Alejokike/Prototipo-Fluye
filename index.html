@@ -1346,6 +1346,80 @@ details.moreopts{margin:6px 0 12px;border:1px solid var(--outline-variant);borde
 .co-on{display:inline-block;flex:none;margin-inline:6px;width:10px;height:10px;border-radius:50%;background:var(--success);box-shadow:0 0 0 3px color-mix(in srgb,var(--success) 18%,transparent);vertical-align:middle}
 /* SC-043 · iframe con el HTML real del correo de invitación (dentro de .mail); la altura la ajusta fluyeMailFrame */
 .mail-fr{display:block;width:100%;min-height:480px;border:0;background:var(--surface-container-lowest)}
+/* Editar cliente: verificación y contactos gestionables en la columna lateral */
+@media (min-width:840px){.g2:has(>.edit-side){grid-template-columns:minmax(0,1fr) minmax(0,1fr)}}
+.edit-side .panel>.lead{font-size:13px;line-height:18px}
+/* Visor de documentos cargados */
+.dv-pv{border:1px solid var(--outline-variant);border-radius:12px;background:var(--surface-container-high);overflow:hidden;display:grid;place-items:center;min-height:260px;max-height:min(60vh,520px)}
+.dv-img{display:block;max-width:100%;max-height:min(60vh,520px);object-fit:contain}
+.dv-pdf{display:block;width:100%;height:min(60vh,520px);border:0}
+.dv-none{display:grid;justify-items:center;gap:8px;padding:32px 16px;text-align:center;color:var(--on-surface-variant)}
+.dv-none .i{font-size:32px;width:32px;height:32px}
+.dv-pv:has(.dv-mock){display:block;padding:20px;max-height:none}
+.dv-mock{width:min(100%,360px);margin:0 auto;aspect-ratio:1/1.3;background:var(--surface-container-lowest);border-radius:6px;box-shadow:var(--elevation-2);padding:22px;display:flex;flex-direction:column;gap:10px}
+.dv-mh .mono{white-space:nowrap}.dv-mh{display:flex;justify-content:space-between;gap:8px;align-items:baseline;border-bottom:2px solid var(--figure);padding-bottom:8px;color:var(--figure)}
+.dv-mt{font:500 13px/18px var(--sans)}
+.dv-mock>i{display:block;height:8px;border-radius:4px;background:var(--surface-container-highest)}
+.dv-mock>i.s{width:62%}
+.dv-ms{margin-top:auto;align-self:flex-end;font:400 11px/16px var(--sans);color:var(--on-surface-variant);border-top:1px solid var(--outline-variant);padding-top:4px;min-width:120px;text-align:center}
+.dv-meta{margin-top:12px}
+/* Estados vacíos: el isotipo real de Fluye (LOGO_ISO, lo publica app.js en --logo-iso) en lugar del dibujo aproximado */
+.empty::before{background:var(--logo-iso) center/contain no-repeat;width:64px;height:40px}
+/* SC-009 notas */
+.note-tx{white-space:pre-wrap;overflow-wrap:anywhere}
+.note-f{flex:1 1 100%;margin:10px 0 4px}
+.note-f textarea{min-height:96px}
+.note-fb{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:8px;flex-wrap:wrap}
+/* Perfil del cliente: indicadores y bloques planos dentro de «Evidencia de la relación» (sin tarjetas dentro de tarjetas) */
+.ev-ks{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,150px),1fr));gap:16px;margin-block:12px 4px;padding-block-end:16px}
+.ev-k .v{font:500 24px/32px var(--mono);color:var(--figure);overflow-wrap:anywhere}
+.ev-g{padding-block:16px 4px;border-top:1px solid var(--hair)}
+/* Perfil del cliente: el estado (Habilitado, Inhabilitado, Archivado) va junto al nombre, como insignia con color */
+.t-h:has(>.h-st){display:flex;flex-wrap:wrap;align-items:center;column-gap:12px;row-gap:4px}
+.h-st{display:inline-flex;align-items:center;flex:none}
+.h-st .chip{height:28px;padding:0 12px;border-radius:9999px;font:500 13px/16px var(--sans);background:var(--surface-container-highest)}
+.h-st .chip::before{display:none}
+.h-st .chip.ok{background:var(--success-container);color:var(--on-success-container)}
+.h-st .chip.warn{background:var(--warning-container);color:var(--on-warning-container)}
+/* Verificación del cliente: el estado «Verificado por Fluye» va como icono (check en círculo, trazo fino) con su nombre accesible */
+.vchk{display:inline-flex;align-items:center;color:var(--success)}
+.vchk .i{font-size:20px;width:20px;height:20px;font-variation-settings:'FILL' 0,'wght' 400}
+/* Evidencia: tabla comparable «Antes de Fluye» / «En Fluye» */
+.ev-tb{width:100%;border-collapse:collapse;margin-top:4px}
+.ev-tb th,.ev-tb td{padding:12px 0;border-top:1px solid var(--hair);text-align:end;font:400 14px/20px var(--sans);color:var(--on-surface)}
+.ev-tb thead th{border-top:0;font-weight:600;padding-block:8px}
+.ev-tb tbody th{text-align:start;font-weight:400;color:var(--on-surface-variant)}
+.ev-tb td{padding-inline-start:12px}
+/* Perfil del cliente · Contactos: una columna de datos legibles y el interruptor con nombre */
+#p-contacts .ctrow{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-block:14px}
+#p-contacts .ctinfo{display:grid;gap:2px;min-width:0}
+#p-contacts .ctn{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+#p-contacts .ctn .chip{height:22px;padding:0 10px;border-radius:9999px;margin:0;background:var(--info-container);color:var(--on-info-container)}
+#p-contacts .ctn .chip.warn{background:var(--warning-container);color:var(--on-warning-container)}
+#p-contacts .ctn .chip::before{display:none}
+#p-contacts .ctl{font:400 14px/20px var(--sans);color:var(--on-surface);overflow-wrap:anywhere}
+#p-contacts .ctl.mono{white-space:nowrap;font-family:var(--mono);font-size:13px}
+#p-contacts .cta{display:flex;gap:4px;margin-top:4px;margin-inline-start:-12px;flex-wrap:wrap}
+#p-contacts .ct-sw{display:inline-flex;align-items:center;gap:8px;flex:none;font:500 13px/20px var(--sans);color:var(--on-surface);cursor:pointer}
+/* Score operativo: número y nivel juntos, escala 0 a 100 con los cortes de nivel (35, 50, 65, 80) y la confianza de los datos debajo */
+.scr-l{flex:1 1 240px;min-width:0}
+.scr-r{flex:1 1 220px;min-width:0}
+.scr-row{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.scr-bar{position:relative;height:6px;border-radius:9999px;background:var(--surface-container-highest);margin-block:16px 12px}
+.scr-bar i{position:absolute;top:0;bottom:0;width:2px;margin-inline-start:-1px;background:var(--surface-container-lowest)}
+.scr-bar b{position:absolute;top:50%;width:14px;height:14px;margin-inline-start:-7px;margin-top:-7px;border-radius:50%;background:var(--primary);border:2px solid var(--surface-container-lowest);box-shadow:0 0 0 1px var(--primary)}
+.scr-c{font:400 14px/20px var(--sans);color:var(--on-surface)}
+.scr-row .chip{height:28px;padding:0 12px;border-radius:9999px;font:500 13px/16px var(--sans);background:var(--surface-container-highest)}
+.scr-row .chip::before{display:none}
+.scr-row .chip.ok{background:var(--success-container);color:var(--on-success-container)}
+.scr-row .chip.info{background:var(--info-container);color:var(--on-info-container)}
+.scr-row .chip.warn{background:var(--warning-container);color:var(--on-warning-container)}
+.scr-row .chip.err{background:var(--error-container);color:var(--on-error-container)}
+/* Mi perfil: el correo es un campo que no se edita, con su check de verificado al lado */
+.inp-ok{position:relative}
+.fld .inp-ok input{width:100%;padding-inline-end:36px;padding-inline-start:12px;font:400 13px/20px var(--sans);text-overflow:ellipsis}
+.inp-ok .vchk{position:absolute;inset-inline-end:14px;top:50%;transform:translateY(-50%)}
+.fld .inp-ok input[readonly]{background:var(--surface-container-high);color:var(--on-surface);opacity:1;cursor:default}
 </style>
 </head>
 <body>
