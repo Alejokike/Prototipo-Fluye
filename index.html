@@ -1434,10 +1434,40 @@ details.moreopts{margin:6px 0 12px;border:1px solid var(--outline-variant);borde
 #tbl-clients .cbd .chip::before{display:none}
 #tbl-clients .cbd .chip.err{background:var(--error-container);color:var(--on-error-container)}
 #tbl-clients .cbd .chip.warn{background:var(--warning-container);color:var(--on-warning-container)}
+/* Clientes (SC-008): el nivel del score va como badge tonal, sin punto */
+#tbl-clients .scb .chip{height:24px;padding:0 10px;border-radius:9999px;background:var(--surface-container-highest);color:var(--on-surface)}
+#tbl-clients .scb .chip::before{display:none}
+#tbl-clients .scb .chip.ok{background:var(--success-container);color:var(--on-success-container)}
+#tbl-clients .scb .chip.info{background:var(--info-container);color:var(--on-info-container)}
+#tbl-clients .scb .chip.warn{background:var(--warning-container);color:var(--on-warning-container)}
+#tbl-clients .scb .chip.err{background:var(--error-container);color:var(--on-error-container)}
+/* Móvil: las tarjetas plegables usan el chevron del DS (el mismo de .nmi), no el carácter ▾/▸ */
+.mc>.mch::after{content:"";width:20px;height:20px;top:0;inset-inline-end:0;background:var(--on-surface-variant);-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E") center/contain no-repeat;transition:transform .2s}
+.mc.closed>.mch::after{content:"";transform:rotate(-90deg)}
+.mc.closed>.mch:dir(rtl)::after{transform:rotate(90deg)}
+@media (prefers-reduced-motion:reduce){.mc>.mch::after{transition:none}}
+/* Verificación de la empresa (SC-009): título y, debajo, el nombre del archivo o el documento, en la fuente normal */
+.pdoc{display:grid;gap:2px;min-width:0}.pdoc .muted{overflow-wrap:anywhere}
+/* Status del cliente (SC-009): motivo, luego fecha y responsable, y al final la nota */
+.stlg{display:grid;gap:2px;margin-top:12px}
+.stl-why{font:600 14px/20px var(--sans);color:var(--on-surface)}
+.stl-m{font:400 13px/18px var(--sans);color:var(--on-surface-variant)}
+.stl-n{margin-top:4px;font:400 13px/18px var(--sans);color:var(--on-surface)}
 /* Aviso de cliente inhabilitado con saldo: color plano, sin botón */
 .stbn{display:flex;align-items:center;gap:12px;margin-bottom:12px;padding:12px 16px;border-radius:16px;background:var(--warning-container);color:var(--on-warning-container)}
 .stbn .i{flex:none;width:24px;height:24px;font-size:24px}
 .stbn div{display:grid;gap:2px;min-width:0}.stbn b{font:600 14px/20px var(--sans)}.stbn div span{font:400 13px/18px var(--sans)}
+/* Correo y enlace seguro (SC-018, MSG): pantalla completa y responsiva, sin el marco de teléfono (stage() ya no usa .phone) */
+.stage-body.full{display:flex;flex-direction:column;align-items:stretch;gap:0;padding:0}
+.xpage{flex:1;display:flex;flex-direction:column;width:100%;min-width:0;background:var(--surface)}
+.xpage .bv{flex:1;height:auto;min-height:0;overflow:visible}
+.xpage .bv-in{max-width:640px;padding:32px 24px}.xpage .bv-in.wide{max-width:880px}
+.xpage .msg{flex:1;height:auto;overflow:visible;background:var(--surface-container)}
+.xpage .msg-body{width:100%;max-width:720px;margin-inline:auto;padding:32px 24px}
+.xpage .mail-b{padding:24px}.xpage .mail-h{padding:16px 24px}
+.xpage .mail .btn-block{width:100%}
+.stage-body.full .stage-ref{max-width:880px;margin-inline:auto;padding:24px}
+@media (max-width:600px){.xpage .bv-in{padding:24px 16px}.xpage .msg-body{padding:16px}.xpage .mail-b{padding:20px 16px}.xpage .mail-h{padding:12px 16px}.stage-body.full .stage-ref{padding:16px}}
 </style>
 </head>
 <body>
