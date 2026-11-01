@@ -1486,6 +1486,25 @@ details.moreopts{margin:6px 0 12px;border:1px solid var(--outline-variant);borde
 .msc button .i{width:14px;height:14px;font-size:14px}
 /* Ventas del cliente (SC-009): el código de venta es corto, la columna ocupa menos */
 @media (min-width:700px){.li.bsl{grid-template-columns:.6fr 1.1fr 1fr 1fr}}
+/* Crear venta (SC-0xx): selector de modo como pestañas; reutiliza el aspecto de .seg.view con aria-selected */
+.seg.view.sale-mode{margin-block-end:16px}
+.seg.view button[aria-selected="true"]{background:linear-gradient(180deg,color-mix(in srgb,var(--primary) 90%,white),var(--primary));color:var(--on-primary);box-shadow:0 1px 3px color-mix(in srgb,var(--primary) 50%,transparent)}
+/* Crear venta, carga de documento: en escritorio los pasos van en la tarjeta (sin viñetas); en móvil la tarjeta se oculta y los pasos van en el tooltip de IA */
+.doc-how .tl li{grid-template-columns:1fr}
+.doc-ai{display:none}
+@media (max-width:699px){.doc-how{display:none}.doc-ai{display:contents}}
+/* Campos requeridos: asterisco junto a la etiqueta; los opcionales no llevan marca */
+.fld label .req{margin-inline-start:3px;color:var(--error)}
+/* Calendario de pagos del formulario: fecha bajo la cuota y dos columnas de monto (original y pronto pago) */
+/* cada fila es su propia cuadrícula: las columnas de monto llevan ancho fijo para que encabezado, cuotas y total compartan el mismo centro */
+.prow.pc{grid-template-columns:minmax(0,1fr) repeat(2,108px);column-gap:8px}
+.prow.pc.one{grid-template-columns:minmax(0,1fr) 108px}
+.prow.pc.hd{border-top:0;padding-block:0 4px}
+.prow.pc>:not(:first-child){text-align:center}
+@media (min-width:700px){.prow.pc{grid-template-columns:minmax(0,1fr) repeat(2,132px);column-gap:24px}.prow.pc.one{grid-template-columns:minmax(0,1fr) 132px}}
+.plc{display:grid;gap:2px}
+/* Documento de la factura ya cargado: misma zona que ui-file, sin acción de abrir el selector */
+.fdrop.loaded{cursor:default}.fdrop.loaded:hover{border-color:var(--outline-variant);background:var(--surface-container-lowest)}
 </style>
 </head>
 <body>
