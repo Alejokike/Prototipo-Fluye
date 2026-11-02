@@ -1020,6 +1020,12 @@ a.baract{color:inherit;border-radius:12px;padding:8px 6px}
   .phases{display:flex}
   .ph{flex:1 1 0;min-width:0}
   .ph:last-child{flex:0 1 auto;max-width:32%;padding-inline-end:0}
+  /* Escritorio: los círculos se reparten a todo el ancho (primero y último en los extremos), con el texto centrado bajo cada uno y el conector entre círculos */
+  .phases{padding-inline:56px}
+  .ph{flex:1 1 0;justify-items:start;padding-inline-end:0}
+  .ph:last-child{flex:0 0 32px;max-width:none}
+  .ph .tt,.ph .cp{width:140px;margin-inline-start:-54px;text-align:center}
+  .ph:not(:last-child)::after{inset-inline-start:40px;inset-inline-end:auto;width:calc(100% - 48px)}
 }
 /* Móvil: línea de tiempo vertical, con el círculo a la izquierda y el texto a la derecha */
 @media (max-width:760px){
