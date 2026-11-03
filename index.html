@@ -1530,6 +1530,10 @@ details.moreopts{margin:6px 0 12px;border:1px solid var(--outline-variant);borde
 .mxr>div:not(:first-child){display:flex;align-items:center}
 @media (max-width:760px){.mxr,.mxr.h{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px 12px}.mxr.h{padding-bottom:8px}.mxr.h>div:first-child{display:none}.mxr>div:first-child{grid-column:1/-1}.mxr>div:not(:first-child){justify-content:center;text-align:center}}
 @media (max-width:420px){.mxr.h{font-size:11px}}
+/* Mercado y monedas: el filtro Activas/Todas es un select dentro de la barra de filtros */
+.fbar .fld{margin:0;margin-inline-start:auto;min-width:140px}
+/* Lista de monedas sin etiquetas de origen ni de base: solo interruptor, nombre y tasa */
+@media (min-width:700px){.mkrow{grid-template-columns:48px minmax(0,1fr) auto}}
 </style>
 </head>
 <body>
