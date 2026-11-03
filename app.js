@@ -1836,26 +1836,25 @@ function vAccount(){
   '<section class="panel"><h2>Solicitudes de cambio</h2>'+reqs+'</section>'+idiomaP+'</aside></div>';
 }
 function rolesMatrix(){
- var chipA=function(c){return c==='A'?chip('Permitido','ok'):c==='C'?chip('Condicional','warn'):chip('No permitido');};
- var MX=[['Acceder a la cuenta del vendedor','A','A','A'],['Crear clientes y ventas','A','A','A'],['Consultar ventas, cartera y evidencia','A','A','A'],['Notificar y dar seguimiento al cobro','A','A','A'],['Activar una venta y registrar la decisión','A','A','C'],['Publicar o cambiar la política y el mercado','A','A','N'],['Configurar condiciones por cliente','A','A','N'],['Ajustar el límite de un cliente','A','A','N'],['Cambiar los contactos y los documentos de un cliente','A','A','N'],['Incorporar usuarios','A','A','N'],['Asignar roles','A','C','N'],['Designar propietarios','A','N','N'],['Retirar o degradar a otro administrador','A','N','N'],['Registrar un pago manual','A','A','C'],['Aprobar un pago informado o registrado por un operador','A','A','N'],['Corregir o reversar un pago','C','C','C'],['Consultar la auditoría','C','C','N']],mr=myRole();
- var tu=function(r){return mr===r?' '+chip('Tu rol','info'):'';};
- return '<div class="mxr h"><div></div><div>Propietario'+tu('owner')+'</div><div>Administrador'+tu('admin')+'</div><div>Operador'+tu('operator')+'</div></div>'+MX.map(function(r){return '<div class="mxr"><div>'+r[0]+'</div><div>'+chipA(r[1])+'</div><div>'+chipA(r[2])+'</div><div>'+chipA(r[3])+'</div></div>';}).join('')+'<p class="muted small" style="margin-top:12px">Los propietarios controlan la cuenta y pueden ser varios. El administrador invita y gestiona operadores. El operador registra los pagos manuales, que quedan pendientes de aprobación. '+sup('SC-006: roles confirmados el 3-oct')+'</p>';
+ var chipA=function(c){return c==='A'?'<span class="mxi ok">'+ic('check')+'<span class="sr">Permitido</span></span>':c==='C'?'<span class="mxi warn">'+ic('check')+'<span class="sr">Condicional</span></span>':'<span class="sr">No permitido</span>';};
+ var MX=[['Acceder a la cuenta del vendedor','A','A','A'],['Crear clientes y ventas','A','A','A'],['Consultar ventas, cartera y evidencia','A','A','A'],['Notificar y dar seguimiento al cobro','A','A','A'],['Activar una venta y registrar la decisión','A','A','C'],['Publicar o cambiar la política y el mercado','A','A','N'],['Configurar condiciones por cliente','A','A','N'],['Ajustar el límite de un cliente','A','A','N'],['Cambiar los contactos y los documentos de un cliente','A','A','N'],['Incorporar usuarios','A','A','N'],['Asignar roles','A','C','N'],['Designar propietarios','A','N','N'],['Retirar o degradar a otro administrador','A','N','N'],['Registrar un pago manual','A','A','C'],['Aprobar un pago informado o registrado por un operador','A','A','N'],['Corregir o reversar un pago','C','C','C'],['Consultar la auditoría','C','C','N']];
+  return '<div class="mxr h"><div></div><div>Propietario</div><div>Administrador</div><div>Operador</div></div>'+MX.map(function(r){return '<div class="mxr"><div>'+r[0]+'</div><div>'+chipA(r[1])+'</div><div>'+chipA(r[2])+'</div><div>'+chipA(r[3])+'</div></div>';}).join('');
 }
 function fUsers(list){var f=S.flt.users,q=norm(f.q);return list.filter(function(u){if(q&&norm(u.name+' '+u.email).indexOf(q)<0)return false;if(f.role!=='all'&&u.role!==f.role)return false;if(f.st!=='all'&&u.status!==f.st)return false;return true;});}
 function usersCnt(){return fUsers(S.users).length+' de '+S.users.length+' usuarios';}
 function usersTbl(){
  var me=sessUser().id,acc={name:function(u){return u.name.toLowerCase();},role:function(u){return u.role;},st:function(u){return u.status;},last:function(u){return u.last===null?-9999:u.last;}};
  var list=sortBy('users',fUsers(S.users),acc);
- var hd='<thead><tr><th>'+th('users','name','Usuario')+'</th><th>'+th('users','role','Rol')+'</th><th>'+th('users','st','Estado')+'</th><th>'+th('users','last','Último acceso')+'</th><th></th></tr></thead>';
+ var hd='<thead><tr><th>'+th('users','name','Usuario')+'</th><th>'+th('users','role','Rol')+'<button type="button" class="rolinfo" data-act="rolesOpen" aria-haspopup="dialog" aria-label="'+esc(TL('Qué puede hacer cada rol','What each role can do'))+'" title="'+esc(TL('Qué puede hacer cada rol','What each role can do'))+'">i</button></th><th>'+th('users','st','Estado')+'</th><th>'+th('users','last','Último acceso')+'</th><th></th></tr></thead>';
  if(!list.length) return '<div class="tw"><table class="stb utb">'+hd+'</table></div>'+emptyF('users','No se encontraron coincidencias');
  var rows=pgSlice(list,'users').map(function(u){
-  var st=u.status==='active'?chip('Activo','ok'):u.status==='invited'?chip('Invitado','info'):chip('Desactivado'),cm=canManage(u);
-  var rc='<span class="rolec">'+chip(roleLabel(u.role),u.role==='operator'?'':'info')+'</span>';
+  var st='<span class="bdg s-'+u.status+'">'+(u.status==='active'?'Activo':u.status==='invited'?'Invitado':'Desactivado')+'</span>',cm=canManage(u);
+  var rc='<span class="bdg r-'+u.role+'">'+roleLabel(u.role)+'</span>';
   var ac='';
   if(u.role==='owner'&&!cm)ac='<span class="muted small">Titular de la cuenta</span>';
   else if(u.id===me)ac='<a class="btn btn-t btn-sm" href="#/profile">Mi perfil</a>';
   else if(cm){ac='<button class="btn btn-o btn-sm" data-act="userEdit" data-id="'+u.id+'" aria-label="'+esc(TL('Editar a ','Edit '))+esc(u.name)+'">'+ic('edit')+'Editar</button>';}
-  return '<tr><td><div class="who">'+(u.photo?'<div class="av" aria-hidden="true" style="background:url('+u.photo+') center/cover"></div>':'<div class="av" aria-hidden="true">'+esc(ini2(u.name))+'</div>')+'<div style="min-width:0"><div class="t-ts">'+esc(u.name)+(u.id===me?' '+chip('Tú'):'')+'</div><div class="muted small" style="overflow-wrap:anywhere">'+esc(u.email)+'</div></div></div></td><td data-l="'+TL('Rol','Role')+'">'+rc+'</td><td data-l="'+TL('Estado','Status')+'">'+st+'</td><td class="muted" data-l="'+TL('Último acceso','Last access')+'">'+lastTxt(u.last)+'</td><td class="r"><div class="pact">'+ac+'</div></td></tr>';}).join('');
+  return '<tr><td><div class="who">'+(u.photo?'<div class="av" aria-hidden="true" style="background:url('+u.photo+') center/cover"></div>':'<div class="av" aria-hidden="true">'+esc(ini2(u.name))+'</div>')+'<div style="min-width:0"><div class="t-ts">'+esc(u.name)+'</div><div class="muted small" style="overflow-wrap:anywhere">'+esc(u.email)+'</div></div></div></td><td data-l="'+TL('Rol','Role')+'">'+rc+'</td><td data-l="'+TL('Estado','Status')+'">'+st+'</td><td class="muted" data-l="'+TL('Último acceso','Last access')+'">'+lastTxt(u.last)+'</td><td class="r"><div class="pact">'+ac+'</div></td></tr>';}).join('');
  return '<div class="tw"><table class="stb utb">'+hd+'<tbody>'+rows+'</tbody></table></div>'+pager('users',list.length);
 }
 function usersSummary(){var a=0,iv=0,r={owner:0,admin:0};S.users.forEach(function(u){if(u.status==='active')a++;if(u.status==='invited')iv++;if(u.status!=='disabled'&&r[u.role]!==undefined)r[u.role]++;});var pl=function(n,o,m){return n+' '+(n===1?o:m);};
@@ -1863,7 +1862,7 @@ function usersSummary(){var a=0,iv=0,r={owner:0,admin:0};S.users.forEach(functio
 }
 function vUsers(){
  var priv=isPriv();
- return head('Usuarios',null,'<button class="btn btn-o proto-only" data-act="rolesOpen" aria-haspopup="dialog">'+ic('help')+'Qué puede hacer cada rol</button><button class="btn btn-o" data-act="ulogOpen" aria-haspopup="dialog">'+ic('receipt')+'Historial</button>'+(priv?'<button class="btn btn-p" data-act="userOpen">'+ic('add')+'Invitar usuario</button>':''),['#/config','Configuración'])+
+ return head('Usuarios',null,'<button class="btn btn-o" data-act="ulogOpen" aria-haspopup="dialog">'+ic('receipt')+'Historial</button>'+(priv?'<button class="btn btn-p" data-act="userOpen">'+ic('add')+'Invitar usuario</button>':''),['#/config','Configuración'])+
   (priv?'':'<div class="banner" style="margin-bottom:16px"><div>Tu rol (Operador) puede ver quién tiene acceso, pero no administrar usuarios ni roles. '+sup('SC-006: el operador no gestiona usuarios ni roles')+'</div></div>')+
   '<section class="panel">'+fbar('users','Buscar usuario o correo',fdd('users','role','Rol')+fdd('users','st','Estado'))+usersSummary()+'<div id="tbl-users">'+usersTbl()+'</div><p class="muted small" style="margin-top:12px">'+sup('V1 (BE-00): alcance confirmado el 2-oct; Draft / Inventory')+'</p></section>';
 }
@@ -2767,7 +2766,7 @@ function layerProto(){
  } else if(S.dlg&&S.dlg.type==='ulog'){
   out+='<div class="scrim" data-act="closeDlg"></div><div class="dlg wide" role="dialog" aria-label="Historial de roles y accesos"><h2>Historial de roles y accesos</h2><div class="alist">'+S.userLog.map(function(e){return '<div class="act"><span class="ai">'+ic('person')+'</span><div style="min-width:0"><div class="t-ts">'+esc(e.x)+'</div><div class="muted small">'+esc(evTxt(e.t))+'</div></div></div>';}).join('')+'</div><div class="actions" style="margin-top:16px"><button class="btn btn-p" data-act="closeDlg">Entendido</button></div></div>';
  } else if(S.dlg&&S.dlg.type==='roles'){
-  out+='<div class="scrim" data-act="closeDlg"></div><div class="dlg wide" role="dialog" aria-label="Qué puede hacer cada rol"><h2>Qué puede hacer cada rol</h2><p class="lead">Condicional significa que depende de una decisión abierta; no se implementa como permitido hasta cerrarla.</p>'+rolesMatrix()+'<div class="actions" style="margin-top:16px"><button class="btn btn-p" data-act="closeDlg">Entendido</button></div></div>';
+  out+='<div class="scrim" data-act="closeDlg"></div><div class="dlg wide" role="dialog" aria-label="Qué puede hacer cada rol"><h2>Qué puede hacer cada rol</h2>'+rolesMatrix()+'<div class="actions" style="margin-top:16px"><button class="btn btn-p" data-act="closeDlg">Entendido</button></div></div>';
  } else if(S.dlg&&S.dlg.type==='ucf'){
   out+='<div class="scrim" data-act="closeDlg"></div><div class="dlg" role="dialog" aria-label="Confirma tu contraseña"><h2>Confirma tu contraseña</h2>'+fld('ucp','Contraseña',pwIn('ucp','current-password'),null,S.dlg.err)+'<div class="actions"><button class="btn btn-t" data-act="closeDlg">Cancelar</button><button class="btn btn-p" data-act="userConfirm">Confirmar</button></div></div>';
  } else if(S.dlg&&S.dlg.type==='user'){

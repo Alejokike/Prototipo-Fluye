@@ -1511,6 +1511,25 @@ details.moreopts{margin:6px 0 12px;border:1px solid var(--outline-variant);borde
 .plc{display:grid;gap:2px}
 /* Documento de la factura ya cargado: misma zona que ui-file, sin acción de abrir el selector */
 .fdrop.loaded{cursor:default}.fdrop.loaded:hover{border-color:var(--outline-variant);background:var(--surface-container-lowest)}
+/* Usuarios y roles: estado y rol como badges tonales (un color por rol) y tabla a todo el ancho */
+.bdg{display:inline-flex;align-items:center;height:24px;padding:0 10px;border-radius:9999px;font:500 12px/16px var(--sans);white-space:nowrap;background:var(--surface-container-highest);color:var(--on-surface-variant)}
+.bdg.r-owner{background:var(--primary-container);color:var(--on-primary-container)}
+.bdg.r-admin{background:color-mix(in srgb,var(--chart-4) 14%,var(--surface-container-lowest));color:color-mix(in srgb,var(--chart-4) 75%,var(--on-surface))}
+.bdg.r-operator{background:color-mix(in srgb,var(--chart-3) 14%,var(--surface-container-lowest));color:color-mix(in srgb,var(--chart-3) 75%,var(--on-surface))}
+.bdg.s-active{background:var(--success-container);color:var(--on-success-container)}
+.bdg.s-invited{background:var(--warning-container);color:var(--on-warning-container)}
+@media (min-width:700px){table.stb.utb{display:table;width:100%}.utb th:nth-child(2),.utb th:nth-child(3),.utb td:nth-child(2),.utb td:nth-child(3){text-align:center}}
+/* Qué puede hacer cada rol: permisos como iconos (check verde = permitido, check ámbar = condicional, vacío = no permitido) */
+.mxi{display:inline-flex}.mxi svg,.mxi .i{width:20px;height:20px;font-size:20px}
+.mxi.ok{color:var(--success)}.mxi.warn{color:var(--warning)}
+/* Usuarios: el (i) junto a «Rol» abre la modal de permisos por rol; mismo aspecto que .infob */
+.rolinfo{display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;margin-inline-start:6px;padding:0;border:1.5px solid var(--on-surface-variant);border-radius:50%;background:transparent;color:var(--on-surface-variant);font:700 11px/1 var(--sans);cursor:pointer;vertical-align:middle;text-transform:none;letter-spacing:0}
+.rolinfo:hover{background:var(--primary);border-color:var(--primary);color:var(--on-primary)}
+.rolinfo:focus-visible{outline:2px solid var(--primary);outline-offset:2px}
+/* Qué puede hacer cada rol, responsiva: en pantallas estrechas el permiso ocupa su línea y debajo van las tres columnas de rol alineadas con su cabecera */
+.mxr>div:not(:first-child){display:flex;align-items:center}
+@media (max-width:760px){.mxr,.mxr.h{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px 12px}.mxr.h{padding-bottom:8px}.mxr.h>div:first-child{display:none}.mxr>div:first-child{grid-column:1/-1}.mxr>div:not(:first-child){justify-content:center;text-align:center}}
+@media (max-width:420px){.mxr.h{font-size:11px}}
 </style>
 </head>
 <body>
