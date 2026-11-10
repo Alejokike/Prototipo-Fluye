@@ -1672,6 +1672,22 @@ input.dce{display:none!important}
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]):not([data-theme="dark"]) .msai{border-color:color-mix(in srgb,var(--ai) 70%,transparent)}}
 /* Listado de clientes: el estado Habilitado va en verde */
 #tbl-clients .cbd .chip.ok{background:var(--success-container);color:var(--on-success-container)}
+/* SC-015 · Íconos de estado de cuota: verde pagada o abonada, rojo vencida, azul próxima, gris programada */
+.inst-ic{display:inline-flex;align-items:center;justify-content:center}
+.inst-ic .i{width:20px;height:20px;font-size:20px}
+.inst-ic.paid,.inst-ic.part{color:var(--success)}
+.inst-ic.late{color:var(--error)}
+.inst-ic.next{color:var(--primary)}
+.plc-w{display:flex;align-items:center;gap:10px;min-width:0}
+.plc-w .inst-ic{flex:none}
+/* SC-015 · «Próximo pago» arriba a la derecha de la tarjeta Plan de pago */
+.sp-h .hint-r{margin-inline-start:auto;text-align:end;line-height:24px}
+/* Asterisco de campo requerido más grande para que se perciba (formularios y mapeo de importación) */
+.fld label .req,.req{font-size:18px;line-height:0;font-weight:600;margin-inline-start:4px;vertical-align:-3px}
+/* Pantallas internas: el contenido ocupa todo el ancho disponible, con el mismo margen a ambos lados (antes se detenía en 1200 px) */
+.main,.shell.rail .main{max-width:none;margin-inline:0}
+/* SC-010 · Actividad reciente: tres niveles (evento, cliente, fecha); la fecha es el más discreto */
+.act .act-d{font-size:12px;line-height:16px;opacity:.8}
 </style>
 </head>
 <body>
