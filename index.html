@@ -1688,6 +1688,10 @@ input.dce{display:none!important}
 .main,.shell.rail .main{max-width:none;margin-inline:0}
 /* SC-010 · Actividad reciente: tres niveles (evento, cliente, fecha); la fecha es el más discreto */
 .act .act-d{font-size:12px;line-height:16px;opacity:.8}
+/* Invitación pendiente (editar usuario): acciones alineadas al inicio, ambas tonales: la principal en azul y cancelar en rojo, distintas de los botones del pie de la ventana */
+.inv-acts{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+.inv-acts .btn.inv-x{background:var(--error-container);color:var(--on-error-container);border-color:transparent}
+.inv-acts .btn.inv-x:hover{filter:brightness(.97)}
 </style>
 </head>
 <body>
