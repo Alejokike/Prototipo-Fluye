@@ -711,7 +711,7 @@ function activate(id){
  if(s.rec==='monthly')s.events.unshift({t:stamp(),x:'Cobro mensual programado: día '+TODAY.getDate()+' de cada mes'});
  S.draftId=null;S.form=null;S.doc=null;S.docConf={};S.saleMode='manual';b.fresh=false;
  toast('Venta activada');
- location.hash='#/sales/'+id;
+ if(location.hash==='#/sales/'+id)route();else location.hash='#/sales/'+id;
 }
 var PAYFORMS=[['transferencia','Transferencia o depósito bancario'],['pagomovil','Pago móvil'],['deposito','Transferencia o depósito bancario'],['efectivo','Efectivo'],['zelle','Zelle'],['cheque','Cheque'],['compensacion','Compensación'],['otro','Otro']];
 var BO_PAYM={VES:{buyer:[['pagomovil','Pago móvil','Desde el banco del cliente; se confirma solo.'],['debito','Débito inmediato interbancario','El cliente lo autoriza una vez y se cobra en cada vencimiento.']],manual:[]},
@@ -776,7 +776,7 @@ function decLog(){
 /* ---------- piezas de UI ---------- */
 var chip=function(t,k){return '<span class="chip '+(k||'')+'">'+esc(t)+'</span>';};
 var sup=function(t){return '<span class="chip warn sup proto-only">Supuesto'+(t?': '+esc(t):'')+'</span>';};
-var stChip=function(s){var rs=saleRetSt(s);return (s.status==='draft'&&s.proposal)?propChip(s):(s.status==='draft'&&s.quoted)?chip('Cotización'):(s.status==='paid'&&(rs==='late'||rs==='review'||rs==='pending'))?retChip(rs):(s.status==='active'&&rs==='norec')?chip('Activa','info')+' '+retChip('norec'):s.status==='paid'?chip('Pagada','ok'):s.status==='active'?chip('Activa','info'):s.status==='cancelled'?chip('Anulada','err'):chip('Borrador');};
+var stChip=function(s){var rs=saleRetSt(s);return (s.status==='draft'&&s.proposal)?propChip(s):(s.status==='paid'&&(rs==='late'||rs==='review'||rs==='pending'))?retChip(rs):(s.status==='active'&&rs==='norec')?chip('Activa','info')+' '+retChip('norec'):s.status==='paid'?chip('Pagada','ok'):s.status==='active'?chip('Activa','info'):s.status==='cancelled'?chip('Anulada','err'):chip('Borrador');};
 function head(title,sub,actions,back){
  return '<div class="page-h"><div>'+(back?'<a class="back" href="'+back[0]+'">'+ic('back')+esc(back[1])+'</a>':'')+
   '<h1 class="t-h">'+title+'</h1>'+(sub?'<p class="sub">'+sub+'</p>':'')+'</div>'+(actions?'<div class="actions">'+actions+'</div>':'')+'</div>';
@@ -1316,7 +1316,7 @@ function attention(){
   if(p>=NEARLIM)out.push({h:'#/buyers/'+b.id,t:b.name,sub:'Usa el '+Math.round(p*100)+'% de su límite',c:chip('Cerca del límite','warn')});
   if(b.fresh)out.push({h:'#/buyers/'+b.id,t:b.name,sub:'Su perfil suma un pago observado nuevo',c:chip('Evidencia actualizada','info')});
   if(!b.hist&&!evidence(b).n)out.push({h:'#/buyers/'+b.id,t:b.name,sub:'Sin evidencia todavía: no hay historial ni pagos observados',c:chip('Sin historial')});});
- S.sales.filter(function(x){return x.status==='draft';}).forEach(function(x){out.push({h:'#/sales/'+x.id+'/review',t:(x.quoted?'Cotización ':'Borrador ')+x.id,sub:'Sin activar · '+mt(x.amount,x.cur),c:chip(x.quoted?'Cotización':'Borrador')});});
+ S.sales.filter(function(x){return x.status==='draft';}).forEach(function(x){out.push({h:'#/sales/'+x.id+'/review',t:'Borrador '+x.id,sub:'Sin activar · '+mt(x.amount,x.cur),c:chip('Borrador')});});
  return out.concat(tail);
 }
 function greet(){var h=new Date().getHours();return h<12?'Buenos días':h<19?'Buenas tardes':'Buenas noches';}
@@ -2124,7 +2124,7 @@ function fopts(tbl,k){
  return {'port.lvl':[['all','Todos'],['hi','Muy alto o alto'],['mid','Moderado'],['low','Bajo o crítico'],['none','Perfil inicial']],'clients.kind':[['all','Todos'],['co','Empresas'],['pn','Personas']],'clients.st':[['all','Todos'],['act','Habilitados'],['paused','Inhabilitados']],'users.role':[['all','Todos'],['owner','Propietario'],['admin','Administrador'],['operator','Operador']],'users.st':[['all','Todos'],['active','Activo'],['invited','Invitado'],['disabled','Desactivado']],'clients.ev':[['all','Todos'],['yes','Con evidencia'],['no','Sin evidencia']],
   'clients.lim':[['all','Todos'],['near','Cerca del límite'],['bal','Con saldo'],['nobal','Sin saldo']],
   'sales.op':[['all','Todos']].concat(OPS),'sales.cond':[['all','Todas'],['cod','Contado o contra entrega'],['n15','Neto 15 o menos'],['n30','Neto 16 a 30'],['n60','Neto 31 a 60'],['n90','Neto más de 60'],['adv','Con anticipo'],['inst','En cuotas'],['stg','Por etapas']],'sales.ret':[['all','Todas'],['pending','Por recibir'],['review','Por revisar'],['late','Vencidas'],['ok','Confirmadas'],['norec','No recibidas']],
- 'sales.st':[['all','Todos'],['prop','Cotizaciones'],['active','Activas'],['paid','Pagadas'],['cancelled','Anuladas']],
+ 'sales.st':[['all','Todos'],['draft','Borradores'],['active','Activas'],['paid','Pagadas'],['cancelled','Anuladas']],
   'sales.due':[['all','Todos'],['overdue','Vencidas'],['soon','Vencen en 7 días'],['later','Más adelante']]}[tbl+'.'+k];
 }
 var FSRCH={'sales.op':'Buscar categoría','sales.tag':'Buscar etiqueta'};
@@ -2154,7 +2154,7 @@ function fSales(list){
   if(f.op&&f.op!=='all'&&catsOf(x).indexOf(f.op)<0) return false;if(f.tag&&f.tag!=='all'&&(x.tags||[]).indexOf(f.tag)<0) return false;
   if(f.cur!=='all'&&x.cur!==f.cur) return false;
   if(f.ret&&f.ret!=='all'&&saleRetSt(x)!==f.ret) return false;
-  if(f.st==='prop'){if(!(x.proposal||(x.quoted&&x.status==='draft'))) return false;}else if(f.st!=='all'&&x.status!==f.st) return false;
+  if(f.st!=='all'&&x.status!==f.st) return false;
   if(f.due!=='all'){if(x.status!=='active') return false;var n=daysTo(x.due);if(f.due==='overdue'&&!(n<0)) return false;if(f.due==='soon'&&!(n>=0&&n<=7)) return false;if(f.due==='later'&&!(n>7)) return false;}
   return true;});
 }
@@ -2163,7 +2163,7 @@ function expByCur(b){var o={},k=[];S.sales.forEach(function(s){if(s.buyerId!==b.
 /* SUPUESTO: el saldo de un cliente se muestra siempre en la moneda base, convertido a la tasa de hoy (misma conversión que usa el límite); las ventas conservan su moneda en tablas y detalle */
 function expCell(b){var v=exposure(b);if(!(v>0))return '<span class="muted">—</span>';return '<div>'+money(v,BC())+'</div>';}
 function clientsCnt(){var st=cliSt();if(st==='loading'||st==='error')return '';if(st==='empty')return '0 clientes';return fClients(S.buyers).length+' de '+S.buyers.length+' clientes';}
-function salesBase(){return S.sales.filter(function(x){return x.status!=='draft'||!!x.proposal||!!x.quoted;});}
+function salesBase(){return S.sales.filter(function(x){return x.status!=='draft'||!!x.proposal||!!x.kept;});}
 function salesCnt(){return fSales(salesBase()).length+' de '+salesBase().length+' ventas';}
 function fbar(tbl,ph,dds,xtra){
  return '<div class="fbar"><div class="fs">'+ic('search')+'<input type="search" data-fq="'+tbl+'" value="'+esc(S.flt[tbl].q)+'" placeholder="'+ph+'" aria-label="'+ph+'"></div>'+dds+
@@ -2197,7 +2197,7 @@ function salesTbl(){
  var hd='<div class="li h"><div>'+th('sales','id','Venta')+'</div><div class="hide-s">'+th('sales','due','Vencimiento')+'</div><div>'+th('sales','amount','Monto')+'</div><div class="hide-s">'+th('sales','cond','Condición')+'</div><div>'+th('sales','status','Estado')+'</div></div>';
  if(!list.length) return hd+emptyF('sales',salesBase().length?'No se encontraron coincidencias':'No hay ventas registradas');
  return hd+pgSlice(list,'sales').map(function(x){
-  return '<a class="li" href="#/sales/'+x.id+'"><div><div class="t-ts mono">'+x.id+'</div><div class="muted small">'+esc(buyer(x.buyerId).name)+(x.op?' · <span>'+opLabel(x.op)+(catsOf(x).length>1?' +'+(catsOf(x).length-1):'')+'</span>':'')+'</div></div><div class="hide-s muted">'+(x.undated?'Sin fecha aún':'Vence '+dfmt(x.due))+'</div><div>'+money(x.amount,x.cur)+'</div><div class="hide-s small">'+esc(termsSale(x))+'</div><div class="sbd">'+stChip(x)+(x.noCredit?' '+chip('Sin evaluación de crédito','warn'):'')+(x.src?' <span class="muted small" title="Creada desde un documento">'+ic('doc')+'</span>':'')+'</div></a>';}).join('')+pager('sales',list.length);
+  return '<a class="li" href="#/sales/'+x.id+((x.status==='draft'&&x.kept&&!x.proposal)?'/review':'')+'"><div><div class="t-ts mono">'+x.id+'</div><div class="muted small">'+esc(buyer(x.buyerId).name)+(x.op?' · <span>'+opLabel(x.op)+(catsOf(x).length>1?' +'+(catsOf(x).length-1):'')+'</span>':'')+'</div></div><div class="hide-s muted">'+(x.undated?'Sin fecha aún':'Vence '+dfmt(x.due))+'</div><div>'+money(x.amount,x.cur)+'</div><div class="hide-s small">'+esc(termsSale(x))+'</div><div class="sbd">'+stChip(x)+(x.noCredit?' '+chip('Sin evaluación de crédito','warn'):'')+(x.src?' <span class="muted small" title="Creada desde un documento">'+ic('doc')+'</span>':'')+'</div></a>';}).join('')+pager('sales',list.length);
 }
 function refreshTbl(t){
  var box=$('tbl-'+t);if(box){box.innerHTML=t==='clients'?clientsTbl():t==='users'?usersTbl():salesTbl();applyI18n(box);}
@@ -2535,7 +2535,7 @@ function salePanelFin(s,nocal){return '<section class="panel"><h2>Financiamiento
 function vReview(id){
  var s=sale(id);if(!s) return vSales();
  var b=buyer(s.buyerId),c=check(s);
- return head('Revisar venta',null,'<button class="btn btn-o" data-act="draftKeep" data-id="'+s.id+'">Guardar cotización</button><button class="btn btn-p" data-act="activate" data-id="'+s.id+'"'+((c.ok&&canActivate())?'':' disabled aria-disabled="true"')+'>Activar venta</button>',['#/sales/new/'+b.id,'Editar venta'])+salePhases(s)+'<div style="height:16px"></div>'+
+ return head('Revisar venta',null,'<button class="btn btn-o" data-act="draftKeep" data-id="'+s.id+'">Guardar borrador</button><button class="btn btn-p" data-act="activate" data-id="'+s.id+'"'+((c.ok&&canActivate())?'':' disabled aria-disabled="true"')+'>Activar venta</button>',['#/sales/new/'+b.id,'Editar venta'])+salePhases(s)+'<div style="height:16px"></div>'+
   '<div class="g2"><div class="stack">'+(!creditOn()&&!isPn(b)?'<div class="banner warn" style="margin-bottom:12px"><div>Modo solo cobranza: esta venta se activa sin revisar límites ni score.</div></div>':'')+(c.cashOk?'<div class="banner" style="margin-bottom:12px"><div>'+TL(esc(b.name)+' tiene las ventas a plazo pausadas por mora. Esta venta es de contado, así que sí se puede activar.',esc(b.name)+' has credit sales paused for late payment. This sale is cash, so it can be activated.')+'</div></div>':'')+(c.paused?'<section class="capb bad" role="status"><span class="capi">'+ic('alert')+'</span><div class="capt"><div class="capl">Ventas pausadas por mora</div><div class="caps">'+esc(b.name)+' tiene un pago vencido a más de '+moraFor(b)+' días. Se levantan al pagar o con un acuerdo de pago. Mientras tanto puedes venderle de contado (plazo 0 días). <a href="#/sales/'+c.paused.id+'">Ver venta</a></div></div></section>':'')+salePanelData(s,b)+
   salePanelFin(s)+
   behaviorPanel(b)+
@@ -2587,7 +2587,7 @@ function vProposal(s){
 function vSale(id){
  (sale(id)&&sale(id).claims||[]).forEach(function(cl){if(cl.status==='returned'&&cl.byName===S.seller.name)cl.ack=true;});
  var s=sale(id);if(s&&s.status==='draft'&&s.proposal) return vProposal(s);
- if(s&&s.status==='draft'&&s.quoted) return vReview(id); /* SUPUESTO: una cotización guardada se abre en la revisión, donde se puede activar */
+ if(s&&s.status==='draft'&&s.kept) return vReview(id); /* SUPUESTO: una cotización guardada se abre en la revisión, donde se puede activar */
  if(!s||s.status==='draft') return vSales();
  var b=buyer(s.buyerId),bal=balance(s),paid=s.status==='paid',url='fluye.link/v/'+s.token,d=discount(s);
  var run=s.amount,pays=s.payments.length?'<div class="prows">'+s.payments.map(function(p){run=r2(run-p.amount-p.discount);return {p:p,left:run};}).map(function(o){var p=o.p;return '<div class="prow"><span><b>'+(p.method==='rail'?'Proveedor de pagos':'Registro manual')+'</b><div class="muted small">'+dfmt(p.date)+' · '+TL('Saldo pendiente','Outstanding balance')+' '+mt(o.left,s.cur)+payProof(p)+'</div></span><span>'+money(p.amount,s.cur)+(p.discount?'<div class="t-lm muted">+ descuento '+mt(p.discount,s.cur)+'</div>':'')+(p.altAmt?'<div class="t-lm muted">'+TL('Pagado en ','Paid in ')+p.altCur+' '+fmt(p.altAmt)+' · 1 '+s.cur+' = '+fmtR(p.rate)+' '+p.altCur+'</div>':'')+'</span></div>';}).join('')+'</div>':'<div class="empty plain"><div class="t-tm">Sin pagos observados</div><p class="muted">Cuando el cliente pague, el pago aparece aquí.</p></div>';
@@ -3668,7 +3668,7 @@ document.addEventListener('click',function(ev){
   location.hash='#/sales/'+makeDraft().id+'/review';
  }
  else if(act==='activate'){activate(id);}
- else if(act==='draftKeep'){var dk=sale(id);if(dk&&dk.status==='draft'&&!dk.proposal)dk.quoted=true;S.draftId=null;S.form=null;S.doc=null;S.docConf={};S.saleMode='manual';toast('Cotización guardada');S.flt.sales.st='prop';location.hash='#/sales';}
+ else if(act==='draftKeep'){var dk=sale(id);if(dk&&dk.status==='draft'&&!dk.proposal)dk.kept=true;S.draftId=null;S.form=null;S.doc=null;S.docConf={};S.saleMode='manual';toast('Borrador guardado');S.flt.sales.st='draft';location.hash='#/sales';}
  else if(act==='payCur'){S.payCur=el.getAttribute('data-v');route();}
  else if(act==='confirmPay'){var s=sale(id),du=payDue(s);var ac1=(S.payCur&&altCurs(s).indexOf(S.payCur)>=0)?S.payCur:null,RR=(retApplies(s)&&S.payRet!==false)?retEff(s,du):{t:0},cash=r2(du-RR.t);if(ac1){var r0=payRate(s,ac1);pay(s,cash,'rail',{altCur:ac1,altAmt:r2(cash*r0),rate:r0,gross:du});}else pay(s,cash,'rail',{gross:du});if(RR.t>0){retApply(s,du,S.payRetDoc==='now'?(S.payRetFile||'comprobantes.pdf'):null,RR);retSettle(s);}S.payRetDoc='later';S.payRetFile=null;S.payRetOv=null;S.payCur=null;S.payScope='next';toast('Pago recibido');location.hash='#/pay/'+id;route();}
  else if(act==='openPay'){S.dlg={id:id,err:null,cur:null};route();var pa=$('pa');if(pa)pa.focus();}
@@ -3893,7 +3893,7 @@ document.addEventListener('click',function(ev){var el=ev.target.closest&&ev.targ
 });
 window.addEventListener('hashchange',function(){S.noteEd=null;});
 I18N.en.push(
- ["Guardar cotización","Save quote"],["Cotización guardada","Quote saved"],["Buscar categoría","Search category"],["Buscar etiqueta","Search tag"],["Etiqueta","Tag"],
+ ["Guardar borrador","Save draft"],["Borrador guardado","Draft saved"],["Borradores","Drafts"],["Buscar categoría","Search category"],["Buscar etiqueta","Search tag"],["Etiqueta","Tag"],
  ["Límites de crédito","Credit limits"],["Límite máximo por venta ({1})","Maximum limit per sale ({1})"],["Límite global de la cuenta ({1})","Account global limit ({1})"],["Límite máximo por venta","Maximum limit per sale"],["Límite global de la cuenta","Account global limit"],
   ["Revisa los límites de crédito: deben ser números positivos","Check the credit limits: they must be positive numbers"],["El límite máximo por venta no puede superar el límite global de la cuenta.","The maximum limit per sale cannot exceed the account global limit."],
  ["El monto supera el límite máximo por venta por {a1}.","The amount exceeds the maximum limit per sale by {a1}."],["El monto supera el límite global de la cuenta por {a1}.","The amount exceeds the account global limit by {a1}."],
