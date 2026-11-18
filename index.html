@@ -1725,6 +1725,108 @@ input.dce{display:none!important}
 /* SC-015 · el comprobante en la fila de pago es solo un clip; el clic abre el detalle del pago */
 .pproof{display:inline-flex;vertical-align:middle;color:var(--primary);margin-inline-start:4px}
 .pproof .i{width:18px;height:18px;font-size:18px}
+/* SC-018 · página segura en dos columnas: resumen y documentos a la izquierda, pago fijo a la derecha */
+.xpage .bv-in.pv{max-width:1200px;padding:32px 24px}
+.pv-t{display:flex;align-items:center;flex-wrap:wrap;gap:12px}
+.pv-t h1{margin:0}
+.pv-g{display:grid;gap:24px;align-items:start}
+.pv-main,.pv-side{display:grid;gap:24px;min-width:0;align-content:start}
+.pv-meta{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px 24px;margin:8px 0}
+.pv-cond{grid-template-columns:minmax(0,1fr);margin-top:0}
+.pv-meta dt{font:600 11px/14px var(--sans);letter-spacing:.04em;text-transform:uppercase;color:var(--on-surface-variant)}
+.pv-meta dd{margin:2px 0 0;overflow-wrap:anywhere}
+.pv-doc{display:flex;align-items:center;gap:12px;padding:12px;border-radius:var(--shape-card);background:var(--surface-container-low)}
+.pv-doc>span:nth-child(2){flex:1;min-width:0;overflow-wrap:anywhere}
+.pv-di{display:inline-grid;place-items:center;width:40px;height:40px;flex:none;border-radius:12px;background:var(--surface-container-lowest);color:var(--error)}
+.pv-pay{display:grid;gap:16px;align-content:start}
+.pv-pay h2{margin:0}
+.pv-pay>.btn-block{margin-top:0!important}
+.pv-m{display:grid;gap:8px}
+.pv-m h3{margin:0}
+.pv-m .muted{margin-bottom:0!important}
+.pv-side .nmi{border:0;box-shadow:none;background:var(--surface-container-low)}
+.pv-side .nmi[open]{box-shadow:none}
+.bv-bar.brand .pv-nav{display:flex;align-items:center;gap:4px;margin-inline-start:24px;min-width:0}
+.pv-nav a{padding:8px 16px;border-radius:12px;font:600 14px/20px var(--sans);color:var(--on-surface-variant);white-space:nowrap;text-decoration:none}
+.pv-nav a:hover{color:var(--on-surface)}
+.pv-nav a[aria-current="page"]{background:var(--primary-container);color:var(--on-primary-container)}
+.bv-bar.brand .pv-out{margin-inline-start:auto;flex:none}
+.pv-cur{max-width:320px;margin:0 0 8px;justify-self:end;width:100%}
+.bv-foot.pv-foot{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px 24px;width:100%;max-width:1200px;margin-inline:auto;padding:24px}
+.pv-fn{color:var(--on-surface);font:400 12px/16px var(--sans)}
+.bv-foot.pv-foot .endorse{color:var(--on-surface)}
+.stage-body.full .stage-ref:empty,.demo .stage-body.full .stage-ref{display:none}
+.pv-foot .endorse{justify-content:flex-start}
+.pv-da{display:flex;gap:8px;flex:none}
+.pv-ck{display:flex;align-items:flex-start;gap:12px;margin-top:16px;cursor:pointer}
+.pv-ck input{flex:none;width:16px;height:16px;margin:2px 0 0;accent-color:var(--primary)}
+.pv-acc{display:grid;gap:12px;padding:16px;border-radius:var(--shape-card);background:var(--surface-container-low)}
+.pv-ar{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.pv-ar>div:first-child{min-width:0;overflow-wrap:anywhere}
+.pv-pay,.pv-m,.pv-m .fld,.pv-m .frow>*{min-width:0}
+.pv-aa{display:flex;padding-top:12px;border-top:1px solid var(--outline-variant)}
+.pv-ar+.pv-ar{padding-top:12px;border-top:1px solid var(--outline-variant)}
+.pv-m .fld{margin-bottom:0}
+.pv-m .frow{gap:12px}
+.pv-tabs{display:flex;width:100%}
+.pv-tabs button{flex:1 1 0;min-width:0}
+.pv-tabs button:disabled{opacity:.5;cursor:not-allowed}
+.pv-m{gap:16px}
+@media (max-width:720px){.bv-bar.brand:has(.pv-nav){flex-wrap:wrap}.bv-bar.brand .pv-nav{order:3;flex-basis:100%;margin-inline-start:0;overflow-x:auto}.bv-bar.brand .pv-out{margin-inline-start:auto}}
+@media (min-width:960px){.pv-g{grid-template-columns:minmax(0,7fr) minmax(0,5fr)}}
+@media (max-width:600px){.xpage .bv-in.pv{padding:24px 16px}}
+/* SC-018 · código de verificación del portal de pagos */
+.pp-em{padding:2px 8px;border-radius:8px;background:var(--surface-container-high);font-size:13px;overflow-wrap:anywhere}
+.otp-f{display:grid;gap:8px;margin:20px 0 16px}
+.otp-h{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.otp-l{font:600 14px/20px var(--sans)}
+.otp-t{display:inline-flex;align-items:center;gap:4px;color:var(--error);font:600 14px/20px var(--mono)}
+.otp-t .i{width:16px;height:16px;font-size:16px}
+.otp-row{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:8px}
+.otp-b{width:100%;min-width:0;height:56px;padding:0;text-align:center;font:600 24px/32px var(--mono);color:var(--on-surface);background:var(--surface-container-lowest);border:1px solid var(--outline);border-radius:var(--shape-field);caret-color:var(--primary)}
+.otp-b:focus{outline:none;border-color:var(--primary);box-shadow:0 0 0 3px color-mix(in srgb,var(--primary) 16%,transparent)}
+.otp-b:disabled{opacity:.5;cursor:not-allowed}
+.otp-row.bad .otp-b{border-color:var(--error)}
+.otp-hint{display:flex;align-items:center;gap:6px;margin:0}
+.otp-hint .i{width:16px;height:16px;font-size:16px;flex:none}
+.otp-rs{margin-top:8px}
+/* SC-029 · portal de pagos: facturas pendientes del cliente */
+.pv-ph{display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:16px}
+.pv-ph h1{margin:0 0 4px}
+.pv-ph .pv-cur{margin:0;width:320px;max-width:100%}
+.pv-ks{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
+.pv-k{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;min-width:0}
+.pv-ki{display:inline-grid;place-items:center;width:40px;height:40px;flex:none;border-radius:12px;background:var(--surface-container-high);color:var(--on-surface-variant)}
+.pv-fb{display:block}
+.pv-fb .fs{flex:1 1 280px;max-width:420px}
+.pv-vl{display:grid;gap:16px}
+.pv-vrow{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:16px 32px;align-items:start}
+.pv-vrow[hidden]{display:none}
+.pv-vm{display:grid;gap:12px;min-width:0}
+.pv-vh{display:flex;align-items:center;flex-wrap:wrap;gap:8px}
+.pv-vh h2{margin:0;font:600 20px/28px var(--sans)}
+.pv-vd{margin:0}
+.pv-vf{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px 24px;margin:0}
+.pv-vf dt{color:var(--on-surface-variant);font:400 13px/18px var(--sans)}
+.pv-vf dd{margin:2px 0 0}
+.pv-vr{display:grid;gap:8px;justify-items:end;align-content:space-between;text-align:end;align-self:stretch}
+.pv-va .amt{font:600 28px/36px var(--mono)}
+.pv-up{text-transform:uppercase;letter-spacing:.04em}
+.pv-pg{display:grid;gap:6px}
+.pv-pgl{display:flex;justify-content:space-between;gap:12px;font:500 13px/18px var(--sans)}
+.pv-pb{height:8px;border-radius:9999px;background:var(--surface-container-high);overflow:hidden}
+.pv-pb i{display:block;height:100%;border-radius:inherit;background:var(--primary)}
+.pv-err{color:var(--error)}
+.pv-warn{color:var(--warning)}
+@media (max-width:720px){.pv-vrow{grid-template-columns:minmax(0,1fr)}.pv-vr{justify-items:start;text-align:start}}
+/* SC-018 · plan de pagos del cliente y botones de monto */
+.prows .prow.pv-pr{display:grid;grid-template-columns:24px minmax(0,1fr) auto;align-items:center;gap:12px}
+.pv-ii{display:inline-flex;align-items:center;justify-content:center;width:24px}
+.pv-pr .muted::first-letter{text-transform:uppercase}
+.pv-amt{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.pv-amt .btn{height:auto;min-height:28px;padding-block:4px;white-space:normal}
+.pv-fb .fbar{margin:0}
+.pv-fb .fs{flex:1 1 280px;max-width:420px}
 </style>
 </head>
 <body>
